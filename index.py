@@ -9,7 +9,8 @@ opcoes = [
   "3. Remover contato",
   "4. Marcar/desmarcar contato como favorito",
   "5. Editar contato",
-  "6. Sair"
+  "6. Lista de contatos favoritos",
+  "7. Sair"
 ]
 
 indice = 0
@@ -24,7 +25,7 @@ def menu():
   
   for i, opcao in enumerate(opcoes):
     if i == indice:
-      print(f"> {opcao}")
+      print(f"\033[32m> {opcao}\033[0m")
     else:
       print(f"  {opcao}")
 
@@ -36,7 +37,7 @@ def aguardar_enter():
     if tecla == b'\r':
       break
 
-def adicionar_contato(contatos):
+def adicionar_contato():
   nome = input("\nDigite o nome do contato: ")
   telefone = input("\nDigite o telefone do contato: ")
   email = input("\nDigite o e-mail do contato: ")
@@ -72,17 +73,18 @@ def mostrar_contatos():
 def contatos_favoritos():
   limpar_console()
 
-  favoritos = [contato in contatos if contato['favorito']]
+  favoritos = [contato for contato in contatos if contato['favorito']]
 
   if not favoritos:
     print("Nenhum favorito encontrado")
-    return
+  else:
+    print("\n/==== Contatos favoritos ====/")
 
-  print("\n/==== Contatos favoritos ====/")
-
-  print(f"{'ID': <4} {'Nome': <20} {'Telefone': <20} {'E-mail': <30}") 
-  for i, contato in enumerate(favoritos):
-    print(f"{i: <4} {contato['nome']: <20} | {contato['telefone']: <20} | {contato['email']: <30}")
+    print(f"{'ID': <4} {'Nome': <20} {'Telefone': <20} {'E-mail': <30}") 
+    for i, contato in enumerate(favoritos):
+      print(f"{i: <4} {contato['nome']: <20} {contato['telefone']: <20} {contato['email']: <30}")
+    
+  aguardar_enter()
 
 def deletar_contato():
   indice_contato = int(input("\nDigite o ID do contato que deseja remover: "))
@@ -148,7 +150,7 @@ while True:
 
       if opcao is not None:
         if opcao == 1:
-          adicionar_contato(contatos)
+          adicionar_contato()
         if opcao == 2:
           mostrar_contatos()
         if opcao == 3:
@@ -158,6 +160,8 @@ while True:
         if opcao == 5:
           editar_contato()
         if opcao == 6:
+          contatos_favoritos()
+        if opcao == 7:
           print("Fechando o programa...")
           break
 
