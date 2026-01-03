@@ -14,8 +14,11 @@ opcoes = [
 
 indice = 0
 
-def menu():
+def limpar_console():
   os.system('cls')
+
+def menu():
+  limpar_console()
 
   print("\nMenu do gerenciador de tarefas: ")
   
@@ -53,7 +56,8 @@ def adicionar_contato(contatos):
     })
   
 def mostrar_contatos():
-  os.system('cls')
+  limpar_console()
+
   print("\n/==== Agenda de contatos ====/")
   
   if not contatos:
@@ -64,6 +68,21 @@ def mostrar_contatos():
       print(f"{i: <4} {contato['nome']: <20} {contato['telefone']: <20} {contato['email']: <30} {'Sim' if contato['favorito'] else 'Não' : <10}") 
 
   aguardar_enter()
+
+def contatos_favoritos():
+  limpar_console()
+
+  favoritos = [contato in contatos if contato['favorito']]
+
+  if not favoritos:
+    print("Nenhum favorito encontrado")
+    return
+
+  print("\n/==== Contatos favoritos ====/")
+
+  print(f"{'ID': <4} {'Nome': <20} {'Telefone': <20} {'E-mail': <30}") 
+  for i, contato in enumerate(favoritos):
+    print(f"{i: <4} {contato['nome']: <20} | {contato['telefone']: <20} | {contato['email']: <30}")
 
 def deletar_contato():
   indice_contato = int(input("\nDigite o ID do contato que deseja remover: "))
